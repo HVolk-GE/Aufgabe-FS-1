@@ -56,6 +56,7 @@ Partial Class Form1
         '
         'NumericUpDown1
         '
+        Me.NumericUpDown1.Enabled = False
         Me.NumericUpDown1.Location = New System.Drawing.Point(79, 90)
         Me.NumericUpDown1.Name = "NumericUpDown1"
         Me.NumericUpDown1.Size = New System.Drawing.Size(120, 20)
