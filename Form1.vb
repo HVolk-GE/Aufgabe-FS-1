@@ -11,56 +11,61 @@
 
 Public Class Form1
     '* ===================================== Globale Variablen definition ====================================================================
-    Dim counter, inkremtint, dekremtint As Byte
-    Dim dekrem, prgDone As Boolean
+    Dim byteCounter, byteInkremtint, byteDekremtint As Byte
+    Dim boolDekrem, boolPrgDone As Boolean
 
     '* ======================================= Timer definition ==============================================================================
     Private WithEvents oTimerProgress, oTimerCounter As Timer
 
+
+    '* ======================================= On Form load actions ==========================================================================
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.NumericUpDown1.Enabled = False
+    End Sub
+
     '* ==================================== Button Inkrementieren ============================================================================
     Private Sub BtnInkrement_MouseDown(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnInkrement.MouseDown
-        If prgDone = True Then
+        If boolPrgDone = True Then
             oTimerCounter.Stop()
             Me.ProgressBar.Value = 0
             Me.NumericUpDown1.Value = 0
-            counter = 0
-            prgDone = False
+            byteCounter = 0
+            boolPrgDone = False
         End If
         'Dekrementiert deaktiveren und Progressbar fuellen aufrufen
-        dekrem = False
+        boolDekrem = False
         ProgressbarFill()
     End Sub
     Private Sub BtnInkrement_MouseUp(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnInkrement.MouseUp
         'Progressbar Timer stoppen
-        dekrem = False
+        boolDekrem = False
         oTimerProgress.Stop()
     End Sub
 
     '* ==================================== Button Dekrementieren ============================================================================
     Private Sub BtnDekrement_MouseDown(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnDekrement.MouseDown
-        If prgDone = True Then
+        If boolPrgDone = True Then
             oTimerCounter.Stop()
             Me.ProgressBar.Value = 0
             Me.NumericUpDown1.Value = 0
-            counter = 0
-            prgDone = False
+            byteCounter = 0
+            boolPrgDone = False
         End If
         'Dekrementiert aktiveren, dekrementier Startwert auf 100 setzen und Progressbar fuellen aufrufen
-        dekrem = True
-        dekremtint = 100
+        boolDekrem = True
+        byteDekremtint = 100
         ProgressbarFill()
     End Sub
 
     Private Sub BtnDekrement_MouseUp(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnDekrement.MouseUp
         'Progressbar Timer stoppen
-        dekrem = True
+        boolDekrem = True
         oTimerProgress.Stop()
     End Sub
-
 
     '* ==================================== (Timer) Progressbar füllen starten =================================================================
     Private Sub ProgressbarFill()
@@ -81,10 +86,10 @@ Public Class Form1
     '* ==================================== (Timer) Progressbar füllen =========================================================================
     Private Sub oTimerProgress_Tick(ByVal sender As Object,
     ByVal e As System.EventArgs) Handles oTimerProgress.Tick
-        counter += 1
+        byteCounter += 1
         'Progressbar füllen auf 100 prozent
         If Me.ProgressBar.Value < 100 Then
-            Me.ProgressBar.Value = counter
+            Me.ProgressBar.Value = byteCounter
         Else
             'Ist Progressbar voll, wird dieser Timer gestopt und In-/Dekrementierung gestartet
             oTimerProgress.Stop()
@@ -95,21 +100,21 @@ Public Class Form1
     '* ==================================== (Timer) In-/Dekrementieren =========================================================================
     Private Sub oTimerCounter_Tick(ByVal sender As Object,
     ByVal e As System.EventArgs) Handles oTimerCounter.Tick
-        'Inkrementierung
-        If inkremtint < 100 And dekrem = False Then
+        'Zaehler inkrementieren:
+        If byteInkremtint < 100 And boolDekrem = False Then
             Me.BtnInkrement.Enabled = False
             Me.BtnDekrement.Enabled = False
-            inkremtint += 1
-            Me.NumericUpDown1.Value = inkremtint
-            'Dekrementierung
-        ElseIf dekremtint > 0 And dekrem = True Then
+            byteInkremtint += 1
+            Me.NumericUpDown1.Value = byteInkremtint
+            'Zaehler dekrementieren:
+        ElseIf byteDekremtint > 0 And boolDekrem = True Then
             Me.BtnInkrement.Enabled = False
             Me.BtnDekrement.Enabled = False
-            dekremtint -= 1
-            Me.NumericUpDown1.Value = dekremtint
+            byteDekremtint -= 1
+            Me.NumericUpDown1.Value = byteDekremtint
         Else
-            'Programm fuer reset vorbereiten, wenn es einmal erfolgreich ausgeführt wurde und neu start zu ermoeglichen.
-            prgDone = True
+            'Programm fuer reset, um neu start zu ermoeglichen.
+            boolPrgDone = True
             Me.BtnInkrement.Enabled = True
             Me.BtnDekrement.Enabled = True
         End If

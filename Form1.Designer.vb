@@ -26,6 +26,7 @@ Partial Class Form1
         Me.BtnDekrement = New System.Windows.Forms.Button()
         Me.ProgressBar = New System.Windows.Forms.ProgressBar()
         Me.NumericUpDown1 = New System.Windows.Forms.NumericUpDown()
+        Me.lblZaehler = New System.Windows.Forms.Label()
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -62,11 +63,23 @@ Partial Class Form1
         Me.NumericUpDown1.Size = New System.Drawing.Size(120, 20)
         Me.NumericUpDown1.TabIndex = 4
         '
+        'lblZaehler
+        '
+        Me.lblZaehler.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblZaehler.AutoSize = True
+        Me.lblZaehler.Location = New System.Drawing.Point(30, 92)
+        Me.lblZaehler.Name = "lblZaehler"
+        Me.lblZaehler.Size = New System.Drawing.Size(43, 13)
+        Me.lblZaehler.TabIndex = 5
+        Me.lblZaehler.Text = "Zähler :"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(285, 203)
+        Me.Controls.Add(Me.lblZaehler)
         Me.Controls.Add(Me.NumericUpDown1)
         Me.Controls.Add(Me.ProgressBar)
         Me.Controls.Add(Me.BtnDekrement)
@@ -75,6 +88,7 @@ Partial Class Form1
         Me.Text = "FS Aufgabe 1"
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
 
@@ -82,4 +96,5 @@ Partial Class Form1
     Friend WithEvents BtnDekrement As Button
     Friend WithEvents ProgressBar As ProgressBar
     Friend WithEvents NumericUpDown1 As NumericUpDown
+    Friend WithEvents lblZaehler As Label
 End Class
