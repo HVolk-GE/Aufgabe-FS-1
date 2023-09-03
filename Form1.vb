@@ -19,6 +19,7 @@ Public Class Form1
 
     '* ======================================= On Form load actions ==========================================================================
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'NumericUpDown1 Feld deaktiviert - wird nur von dem Programm als Ziel der Kalkulationen benutzt!
         Me.NumericUpDown1.Enabled = False
         '==================================== For Next Switch ================================================================================
         'Interne Loops sind fuer die Darstellung auf einer GUI nicht geeignet, Pause oder Break werden in neuen Programmiersprachen nicht mehr
@@ -31,33 +32,41 @@ Public Class Form1
     '* ==================================== Button Inkrementieren ============================================================================
     Private Sub BtnInkrement_MouseDown(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnInkrement.MouseDown
+        'Solange linke Maustaste auf dem Button "Inkrement" gedrückt wird, wird folgender Code ausgeführt:
+        'Wenn Programm erfolgreích druchlaufen ist, wird der oTimerCounter gestoppt.
         If boolPrgDone = True Then
             If boolForNextLoop = False Then
                 oTimerCounter.Stop()
             End If
+            'Neustart Initialisierung
             Me.ProgressBar.Value = 0
             Me.NumericUpDown1.Value = 0
             intCounter = 0
             boolPrgDone = False
         End If
-        'Dekrementiert deaktiveren und Progressbar fuellen aufrufen
+        'Dekrementierung deaktiveren = Inkrementierung aktiv.
         boolDekrem = False
+        'Progressbar fuellen aufrufen
         ProgressbarFill()
     End Sub
     Private Sub BtnInkrement_MouseUp(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnInkrement.MouseUp
-        'Progressbar Timer stoppen
+        'Dekrementierung deaktiveren = Inkrementierung aktiviert.
         boolDekrem = False
+        'Progressbar-Timer stoppen
         oTimerProgress.Stop()
     End Sub
 
     '* ==================================== Button Dekrementieren ============================================================================
     Private Sub BtnDekrement_MouseDown(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnDekrement.MouseDown
+        'Solange linke Maustaste auf dem Button "Dekrement" gedrückt wird, wird folgender Code ausgeführt:
+        'Wenn Programm erfolgreích druchlaufen ist, wird der oTimerCounter gestoppt.
         If boolPrgDone = True Then
             If boolForNextLoop = False Then
                 oTimerCounter.Stop()
             End If
+            'Neustart Initialisierung
             Me.ProgressBar.Value = 0
             Me.NumericUpDown1.Value = 0
             intCounter = 0
@@ -71,8 +80,9 @@ Public Class Form1
 
     Private Sub BtnDekrement_MouseUp(ByVal sender As Object,
     ByVal e As System.Windows.Forms.MouseEventArgs) Handles BtnDekrement.MouseUp
-        'Progressbar Timer stoppen
+        'Dekrementierung aktiveren = Inkrementierung deaktivert.
         boolDekrem = True
+        'Progressbar-Timer stoppen
         oTimerProgress.Stop()
     End Sub
 
@@ -86,7 +96,7 @@ Public Class Form1
 
     '* ==================================== (Timer) In-/Dekrementieren starten =================================================================
     Private Sub InkremDekrem()
-        'Zaehler Timer starten, ticks 100ms
+        'Zaehler Timer 0-100 starten, ticks 100ms
         If IsNothing(oTimerCounter) Then oTimerCounter = New Timer
         oTimerCounter.Interval = 100
         oTimerCounter.Start()
@@ -100,12 +110,14 @@ Public Class Form1
         If Me.ProgressBar.Value < 100 Then
             Me.ProgressBar.Value = intCounter
         Else
-            'Ist Progressbar voll, wird dieser Timer gestopt und In-/Dekrementierung gestartet
+            'Ist Progressbar voll, wird dieser Timer gestopt und die In-/Dekrementierung gestartet
             oTimerProgress.Stop()
+            'For Next Loop, wenn true dann aktiv, ist nur zu Beispiel zwecken,
+            'da die Werte sich schneller aktualliseren als dies ein Monitor darstellen kann.
             If boolForNextLoop = False Then
                 InkremDekrem()
             ElseIf boolForNextLoop = True Then
-                inkrementDekrement() ' Startet For Next Loop, Kalkulationen sind auf der GUI jedoch nicht nachvollziehbar!
+                inkrementDekrement() 'Startet For Next Loop, Kalkulationen sind auf der GUI jedoch nicht nachvollziehbar!
             End If
         End If
 
@@ -134,7 +146,7 @@ Public Class Form1
 
     End Sub
 
-    'For Next (Man koennte auch Do While oder For Each nutzen - alle haben jedoch das selbe Problem ->) Loesung,
+    'For Next Loop (Man koennte auch Do While oder For Each etc. nutzen - alle haben jedoch ein Problem ->) Loesung,
     'nicht benutzbar fuer GUI Darstellung, da die Zaehlung schneller ist als die Refreshrate der Monitore!
     Private Sub inkrementDekrement()
         Me.BtnInkrement.Enabled = False
