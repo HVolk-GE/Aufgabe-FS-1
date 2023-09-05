@@ -11,9 +11,9 @@
 
 Public Class Form1
     '* ===================================== Globale Variablen definition ====================================================================
-    Private intCounter, intInkremtint, intDekremtint As Integer
-    Private boolDekrem, boolPrgDone, boolForNextLoop As Boolean
-
+    Public intCounter, intInkremtint, intDekremtint As Integer
+    Public boolDekrem, boolPrgDone, boolForNextLoop As Boolean
+    ReadOnly indekrem As New indekrement()
     '* ======================================= Timer definition ==============================================================================
     Private WithEvents oTimerProgress, oTimerCounter As Timer
 
@@ -22,7 +22,7 @@ Public Class Form1
         'NumericUpDown1 Feld deaktiviert - wird nur von dem Programm als Ziel der Kalkulationen benutzt!
         Me.NumericUpDown1.Enabled = False
         '==================================== For Next Switch ================================================================================
-        'Interne Loops sind fuer die Darstellung auf einer GUI nicht geeignet, Pause oder Break werden in neuen Programmiersprachen nicht mehr
+        'Interne Loops sind fuer die Darstellung auf einer GUI nicht geeignet, Pause, Sleep oder Break werden in VB.Net nicht mehr
         'benutzt. Da man heute mit Timern arbeiten "soll"!
         'Auf True setzen, wenn man mit der For Next loop arbeiten moechte.
         'Bei False wird der oTimerCounter benutzt. Dieses ist besser fuer die Nachvollziehbarkeit (Sichbarkeit) im GUI geeignet!
@@ -102,6 +102,7 @@ Public Class Form1
         oTimerCounter.Start()
     End Sub
 
+    '# Timer sind Formular bezogen, daher koennen diese nicht in eine Klasse ausgelagert werden !
     '* ==================================== (Timer) Progressbar füllen =========================================================================
     Private Sub oTimerProgress_Tick(ByVal sender As Object,
     ByVal e As System.EventArgs) Handles oTimerProgress.Tick
@@ -117,7 +118,7 @@ Public Class Form1
             If boolForNextLoop = False Then
                 InkremDekrem()
             ElseIf boolForNextLoop = True Then
-                inkrementDekrement() 'Startet For Next Loop, Kalkulationen sind auf der GUI jedoch nicht nachvollziehbar!
+                indekrem.inkrementDekrement() 'Startet Klasse in-/dekrementieren!
             End If
         End If
 
@@ -143,30 +144,6 @@ Public Class Form1
             Me.BtnInkrement.Enabled = True
             Me.BtnDekrement.Enabled = True
         End If
-
-    End Sub
-
-    'For Next Loop (Man koennte auch Do While oder For Each etc. nutzen - alle haben jedoch ein Problem ->) Loesung,
-    'nicht benutzbar fuer GUI Darstellung, da die Zaehlung schneller ist als die Refreshrate der Monitore!
-    Private Sub inkrementDekrement()
-        Me.BtnInkrement.Enabled = False
-        Me.BtnDekrement.Enabled = False
-        'Zaehler inkrementieren:
-        If intInkremtint < 100 And boolDekrem = False Then
-            For byteInkremtint = 0 To 100 Step 1
-                Me.NumericUpDown1.Value = byteInkremtint
-            Next
-            'Zaehler dekrementieren:
-        ElseIf intDekremtint > 0 And boolDekrem = True Then
-            'For indexB = 20 To 1 Step -3
-            For intDekremtint = 100 To 0 Step -1
-                Me.NumericUpDown1.Value = intDekremtint
-            Next
-        End If
-        'Programm fuer reset, um neu start zu ermoeglichen.
-        boolPrgDone = True
-        Me.BtnInkrement.Enabled = True
-        Me.BtnDekrement.Enabled = True
 
     End Sub
 
