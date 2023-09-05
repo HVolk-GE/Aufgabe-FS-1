@@ -11,8 +11,8 @@
 
 Public Class Form1
     '* ===================================== Globale Variablen definition ====================================================================
-    Dim intCounter, intInkremtint, intDekremtint As Integer
-    Dim boolDekrem, boolPrgDone, boolForNextLoop As Boolean
+    Private intCounter, intInkremtint, intDekremtint As Integer
+    Private boolDekrem, boolPrgDone, boolForNextLoop As Boolean
 
     '* ======================================= Timer definition ==============================================================================
     Private WithEvents oTimerProgress, oTimerCounter As Timer
